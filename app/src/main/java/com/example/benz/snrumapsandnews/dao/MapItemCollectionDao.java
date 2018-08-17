@@ -6,8 +6,7 @@ import java.util.List;
 
 public class MapItemCollectionDao {
 
-
-    @SerializedName("0") private List<MapItemDao> data;
+   @SerializedName("data") private List<MapItemDao> data;
 
     public List<MapItemDao> getData() {
         return data;

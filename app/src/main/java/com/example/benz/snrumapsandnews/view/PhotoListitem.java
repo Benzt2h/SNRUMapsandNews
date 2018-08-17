@@ -5,12 +5,19 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.benz.snrumapsandnews.R;
 import com.inthecheesefactory.thecheeselibrary.view.BaseCustomViewGroup;
 import com.inthecheesefactory.thecheeselibrary.view.state.BundleSavedState;
 
 public class PhotoListitem extends BaseCustomViewGroup {
+
+    TextView tvName;
+    TextView tvDescription;
+    ImageView ivImg;
 
     public PhotoListitem(Context context) {
         super(context);
@@ -46,6 +53,9 @@ public class PhotoListitem extends BaseCustomViewGroup {
 
     private void initInstances() {
         // findViewById here
+        tvName = (TextView)findViewById(R.id.tvName);
+        tvDescription = (TextView)findViewById(R.id.tvDescription);
+        ivImg = (ImageView)findViewById(R.id.ivImg);
     }
 
     private void initWithAttrs(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -91,5 +101,18 @@ public class PhotoListitem extends BaseCustomViewGroup {
         int newHeightMeasureSpec = MeasureSpec.makeMeasureSpec(height,MeasureSpec.EXACTLY);
         super.onMeasure(widthMeasureSpec, newHeightMeasureSpec);
         setMeasuredDimension(width,height);
+    }
+
+    public void setNameText(String text){
+        tvName.setText(text);
+    }
+
+    public void setDescriptionText(String text){
+        tvDescription.setText(text);
+    }
+
+    public void setImageUrl(String url){
+        //TODO: Load img
+        Glide.with(getContext()).load(url).into(ivImg);
     }
 }

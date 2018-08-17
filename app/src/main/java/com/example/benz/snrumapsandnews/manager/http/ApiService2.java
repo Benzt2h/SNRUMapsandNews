@@ -12,7 +12,8 @@ import retrofit2.http.POST;
 
 public interface ApiService2 {
 
-    @GET("map_api.php")
-    Call<List<MapItemDao>> loadMapList();
+    @POST("map_api.php")
+    //Call<List<MapItemDao>> loadMapList();
+    Call<MapItemCollectionDao> loadMapList();
 
 }

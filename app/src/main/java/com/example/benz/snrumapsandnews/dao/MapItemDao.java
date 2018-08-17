@@ -2,6 +2,8 @@ package com.example.benz.snrumapsandnews.dao;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class MapItemDao {
     @SerializedName("map_number") private int mapNumber;
     @SerializedName("map_name") private String mapName;

@@ -14,12 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.benz.snrumapsandnews.R;
+import com.example.benz.snrumapsandnews.adapter.MapListAdapter;
 import com.example.benz.snrumapsandnews.adapter.PhotoListAdapter;
 import com.example.benz.snrumapsandnews.dao.MapItemCollectionDao;
 import com.example.benz.snrumapsandnews.dao.MapItemDao;
 import com.example.benz.snrumapsandnews.dao.PhotoItemCollectionDao;
 import com.example.benz.snrumapsandnews.manager.HttpManager;
 import com.example.benz.snrumapsandnews.manager.HttpManager2;
+import com.example.benz.snrumapsandnews.manager.MapListManager;
+import com.example.benz.snrumapsandnews.manager.PhotoListManager;
 import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
 import java.io.IOException;
@@ -33,7 +36,7 @@ import retrofit2.Response;
 public class MainFragment extends Fragment {
 
     ListView listView;
-    PhotoListAdapter listAdapter;
+    MapListAdapter listAdapter;
 
     public MainFragment() {
         super();
@@ -57,19 +60,21 @@ public class MainFragment extends Fragment {
     private void initInstances(View rootView) {
         // Init 'View' instance(s) with rootView.findViewById here
         listView = (ListView) rootView.findViewById(R.id.listView);
-        listAdapter = new PhotoListAdapter();
+        listAdapter = new MapListAdapter();
         listView.setAdapter(listAdapter);
 
-        Call<List<MapItemDao>> call = HttpManager2.getInstance().getService2().loadMapList();
-        call.enqueue(new Callback<List<MapItemDao>>() {
+        Call<MapItemCollectionDao> call = HttpManager2.getInstance().getService2().loadMapList();
+        call.enqueue(new Callback<MapItemCollectionDao>() {
             @Override
-            public void onResponse(Call<List<MapItemDao>> call, Response<List<MapItemDao>> response) {
+            public void onResponse(Call<MapItemCollectionDao> call, Response<MapItemCollectionDao> response) {
                 if(response.isSuccessful()){
-                    List<MapItemDao> dao = response.body();
-                    Toast.makeText(Contextor.getInstance().getContext(),dao.get(0).getMapName(),Toast.LENGTH_LONG).show();
+                    MapItemCollectionDao dao = response.body();
+                    MapListManager.getInstance().setDao(dao);
+                    listAdapter.notifyDataSetChanged();
+                    Toast.makeText(Contextor.getInstance().getContext(),dao.getData().get(0).getMapName(),Toast.LENGTH_LONG).show();
                 }else{
                     try {
-                        Toast.makeText(Contextor.getInstance().getContext(),response.errorBody().string(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(Contextor.getInstance().getContext(), response.errorBody().string(), Toast.LENGTH_LONG).show();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -77,17 +82,19 @@ public class MainFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<MapItemDao>> call, Throwable t) {
-                Toast.makeText(Contextor.getInstance().getContext(),t.toString(),Toast.LENGTH_LONG).show();
+            public void onFailure(Call<MapItemCollectionDao> call, Throwable t) {
+                Toast.makeText(Contextor.getInstance().getContext(), t.toString(), Toast.LENGTH_LONG).show();
             }
         });
 
-       /* Call<PhotoItemCollectionDao> call = HttpManager.getInstance().getService().loadPhotoList();
+        /*Call<PhotoItemCollectionDao> call = HttpManager.getInstance().getService().loadPhotoList();
         call.enqueue(new Callback<PhotoItemCollectionDao>() {
             @Override
             public void onResponse(Call<PhotoItemCollectionDao> call, Response<PhotoItemCollectionDao> response) {
                 if(response.isSuccessful()){
                     PhotoItemCollectionDao dao = response.body();
+                    PhotoListManager.getInstance().setDao(dao);
+                    listAdapter.notifyDataSetChanged();
                     Toast.makeText(getActivity(),dao.getData().get(0).getCaption(),Toast.LENGTH_LONG).show();
                 }else{
                     try {

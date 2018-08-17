@@ -3,25 +3,26 @@ package com.example.benz.snrumapsandnews.adapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
+import com.example.benz.snrumapsandnews.dao.MapItemDao;
+import com.example.benz.snrumapsandnews.manager.MapListManager;
 import com.example.benz.snrumapsandnews.manager.PhotoListManager;
 import com.example.benz.snrumapsandnews.view.PhotoListitem;
 
-public class PhotoListAdapter extends BaseAdapter {
+public class MapListAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         //TODO size Map fix here
-        if(PhotoListManager.getInstance().getDao() == null)
+        if(MapListManager.getInstance().getDao() == null)
             return 0;
-        if (PhotoListManager.getInstance().getDao().getData() == null)
+        if (MapListManager.getInstance().getDao().getData() == null)
             return 0;
-        return PhotoListManager.getInstance().getDao().getData().size();
+        return MapListManager.getInstance().getDao().getData().size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return MapListManager.getInstance().getDao().getData().get(position);
     }
 
     @Override
@@ -37,6 +38,12 @@ public class PhotoListAdapter extends BaseAdapter {
                 item = (PhotoListitem) convertView;
             } else
                 item = new PhotoListitem(parent.getContext());
+
+        MapItemDao dao = (MapItemDao) getItem(position);
+        item.setNameText(dao.getMapName());
+        item.setDescriptionText(dao.getMapDescription());
+        item.setImageUrl(dao.getMapImg());
+
             return item;
     }
 }

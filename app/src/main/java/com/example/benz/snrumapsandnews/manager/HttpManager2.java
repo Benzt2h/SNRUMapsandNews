@@ -25,7 +25,7 @@ public class HttpManager2 {
         mContext = Contextor.getInstance().getContext();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://lmtznetwork.info/backend-snru/")
+                .baseUrl("http://192.168.43.33/backend-snru/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
