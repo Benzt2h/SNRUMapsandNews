@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.benz.snrumapsandnews.R;
 import com.example.benz.snrumapsandnews.fragment.MainFragment;
+import com.example.benz.snrumapsandnews.fragment.NewsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
                             .commit();
                     return true;
                 case R.id.navigation_news:
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.contentContainer, NewsFragment.newInstance())
+                            .commit();
                     return true;
             }
             return false;
