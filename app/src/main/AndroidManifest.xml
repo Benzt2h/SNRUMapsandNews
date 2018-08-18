@@ -47,7 +47,8 @@
         <activity
             android:name=".activity.MoreInfoMapActivity"
             android:label="@string/title_activity_more_info_map"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activity.MoreInfoNewsActivity"></activity>
     </application>
 
 </manifest>

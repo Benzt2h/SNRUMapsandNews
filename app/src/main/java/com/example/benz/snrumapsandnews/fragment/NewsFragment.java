@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -74,6 +75,8 @@ public class NewsFragment extends Fragment {
         listAdapter = new NewsListAdapter();
         listAdapter.setDao(newsListManager.getDao());
         listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(listViewItemClickListener);
+
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(pullToRefreshListener);
         listView.setOnScrollListener(listviewScorollListener);
@@ -159,6 +162,13 @@ public class NewsFragment extends Fragment {
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             swipeRefreshLayout.setEnabled(firstVisibleItem == 0);
+        }
+    };
+
+    final AdapterView.OnItemClickListener listViewItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
         }
     };
 }
