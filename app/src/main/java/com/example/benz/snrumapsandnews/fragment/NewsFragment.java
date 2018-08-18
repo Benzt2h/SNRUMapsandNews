@@ -1,10 +1,13 @@
 package com.example.benz.snrumapsandnews.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -15,6 +18,7 @@ import com.example.benz.snrumapsandnews.dao.MapItemCollectionDao;
 import com.example.benz.snrumapsandnews.dao.NewsItemCollectionDao;
 import com.example.benz.snrumapsandnews.manager.HttpManager2;
 import com.example.benz.snrumapsandnews.manager.HttpManager3;
+import com.example.benz.snrumapsandnews.manager.NewsListManager;
 import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
 import java.io.IOException;
@@ -28,6 +32,8 @@ public class NewsFragment extends Fragment {
 
     ListView listView;
     NewsListAdapter listAdapter;
+    SwipeRefreshLayout swipeRefreshLayout;
+    NewsListManager newsListManager;
 
     public NewsFragment() {
         super();
@@ -41,29 +47,52 @@ public class NewsFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        init(savedInstanceState);
+
+        if(savedInstanceState!=null){
+            onRestoreInstanceState(savedInstanceState);
+        }
+    }
+
+    private void init(Bundle savedInstanceState) {
+        newsListManager = new NewsListManager();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        initInstances(rootView);
+        initInstances(rootView,savedInstanceState);
         return rootView;
     }
 
-    private void initInstances(View rootView) {
+    private void initInstances(View rootView,Bundle savedInstanceState) {
         // Init 'View' instance(s) with rootView.findViewById here
         listView = (ListView) rootView.findViewById(R.id.listView);
         listAdapter = new NewsListAdapter();
+        listAdapter.setDao(newsListManager.getDao());
         listView.setAdapter(listAdapter);
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(pullToRefreshListener);
+        listView.setOnScrollListener(listviewScorollListener);
 
+        reloadData();
+    }
+
+    private void reloadData() {
         Call<NewsItemCollectionDao> call = HttpManager3.getInstance().getService().loadNewsList();
         call.enqueue(new Callback<NewsItemCollectionDao>() {
             @Override
             public void onResponse(Call<NewsItemCollectionDao> call, Response<NewsItemCollectionDao> response) {
-                if(response.isSuccessful()){
+                swipeRefreshLayout.setRefreshing(false);
+                if (response.isSuccessful()) {
                     NewsItemCollectionDao dao = response.body();
                     listAdapter.setDao(dao);
                     listAdapter.notifyDataSetChanged();
-                    Toast.makeText(Contextor.getInstance().getContext(),dao.getData().get(0).getNewsHeader(),Toast.LENGTH_LONG).show();
-                }else{
+                    Toast.makeText(Contextor.getInstance().getContext(), dao.getData().get(0).getNewsHeader(), Toast.LENGTH_LONG).show();
+                } else {
                     try {
                         Toast.makeText(Contextor.getInstance().getContext(), response.errorBody().string(), Toast.LENGTH_LONG).show();
                     } catch (IOException e) {
@@ -74,6 +103,7 @@ public class NewsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<NewsItemCollectionDao> call, Throwable t) {
+                swipeRefreshLayout.setRefreshing(false);
                 Toast.makeText(Contextor.getInstance().getContext(), t.toString(), Toast.LENGTH_LONG).show();
             }
         });
@@ -96,8 +126,12 @@ public class NewsFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         // Save Instance State here
+        outState.putBundle("newsListManager", newsListManager.onSaveInstanceState());
     }
 
+    private void onRestoreInstanceState(Bundle saveInstanceState){
+        newsListManager.onRestoreInstanceState(saveInstanceState.getBundle("newsListManager"));
+    }
     /*
      * Restore Instance State Here
      */
@@ -108,4 +142,23 @@ public class NewsFragment extends Fragment {
             // Restore Instance State here
         }
     }
+
+    final SwipeRefreshLayout.OnRefreshListener pullToRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            reloadData();
+        }
+    };
+
+    final AbsListView.OnScrollListener listviewScorollListener = new AbsListView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            swipeRefreshLayout.setEnabled(firstVisibleItem == 0);
+        }
+    };
 }

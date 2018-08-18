@@ -1,4 +1,4 @@
-package com.inthecheesefactory.thecheeselibrary.fragment;
+package com.example.benz.snrumapsandnews.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,7 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.inthecheesefactory.thecheeselibrary.R;
+import com.example.benz.snrumapsandnews.R;
+
 
 /**
  * Created by nuuneoi on 11/16/2014.
