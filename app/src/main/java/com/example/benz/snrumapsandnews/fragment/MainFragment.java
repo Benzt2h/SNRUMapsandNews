@@ -69,7 +69,7 @@ public class MainFragment extends Fragment {
             public void onResponse(Call<MapItemCollectionDao> call, Response<MapItemCollectionDao> response) {
                 if(response.isSuccessful()){
                     MapItemCollectionDao dao = response.body();
-                    MapListManager.getInstance().setDao(dao);
+                    listAdapter.setDao(dao);
                     listAdapter.notifyDataSetChanged();
                     Toast.makeText(Contextor.getInstance().getContext(),dao.getData().get(0).getMapName(),Toast.LENGTH_LONG).show();
                 }else{
@@ -86,30 +86,6 @@ public class MainFragment extends Fragment {
                 Toast.makeText(Contextor.getInstance().getContext(), t.toString(), Toast.LENGTH_LONG).show();
             }
         });
-
-        /*Call<PhotoItemCollectionDao> call = HttpManager.getInstance().getService().loadPhotoList();
-        call.enqueue(new Callback<PhotoItemCollectionDao>() {
-            @Override
-            public void onResponse(Call<PhotoItemCollectionDao> call, Response<PhotoItemCollectionDao> response) {
-                if(response.isSuccessful()){
-                    PhotoItemCollectionDao dao = response.body();
-                    PhotoListManager.getInstance().setDao(dao);
-                    listAdapter.notifyDataSetChanged();
-                    Toast.makeText(getActivity(),dao.getData().get(0).getCaption(),Toast.LENGTH_LONG).show();
-                }else{
-                    try {
-                        Toast.makeText(getActivity(),response.errorBody().string(),Toast.LENGTH_LONG).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PhotoItemCollectionDao> call, Throwable t) {
-                Toast.makeText(getActivity(),t.toString(),Toast.LENGTH_LONG).show();
-            }
-        });*/
     }
 
     @Override

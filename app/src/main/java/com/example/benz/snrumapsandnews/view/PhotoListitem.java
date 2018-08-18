@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.benz.snrumapsandnews.R;
 import com.inthecheesefactory.thecheeselibrary.view.BaseCustomViewGroup;
 import com.inthecheesefactory.thecheeselibrary.view.state.BundleSavedState;
@@ -113,6 +115,8 @@ public class PhotoListitem extends BaseCustomViewGroup {
 
     public void setImageUrl(String url){
         //TODO: Load img
-        Glide.with(getContext()).load(url).into(ivImg);
+        RequestOptions requestOptions= RequestOptions.placeholderOf(R.drawable.mock).diskCacheStrategy(DiskCacheStrategy.ALL).error(R.drawable.mock);
+        //Glide.with(getContext()).load(url).into(ivImg);
+        Glide.with(getContext()).setDefaultRequestOptions(requestOptions).load(url).into(ivImg);
     }
 }

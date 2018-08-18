@@ -19,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_map:
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.contentContainer, MainFragment.newInstance())
+                            .commit();
                     return true;
                 case R.id.navigation_news:
                     return true;
