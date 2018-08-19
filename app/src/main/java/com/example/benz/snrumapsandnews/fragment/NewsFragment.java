@@ -1,5 +1,6 @@
 package com.example.benz.snrumapsandnews.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,10 +14,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.benz.snrumapsandnews.R;
+import com.example.benz.snrumapsandnews.activity.MoreInfoMapActivity;
+import com.example.benz.snrumapsandnews.activity.MoreInfoNewsActivity;
 import com.example.benz.snrumapsandnews.adapter.MapListAdapter;
 import com.example.benz.snrumapsandnews.adapter.NewsListAdapter;
 import com.example.benz.snrumapsandnews.dao.MapItemCollectionDao;
 import com.example.benz.snrumapsandnews.dao.NewsItemCollectionDao;
+import com.example.benz.snrumapsandnews.dao.NewsItemDao;
 import com.example.benz.snrumapsandnews.manager.HttpManager2;
 import com.example.benz.snrumapsandnews.manager.HttpManager3;
 import com.example.benz.snrumapsandnews.manager.NewsListManager;
@@ -31,6 +35,9 @@ import retrofit2.Response;
 
 public class NewsFragment extends Fragment {
 
+    public interface FragmentNewsListener{
+        void onNewsItemClick(NewsItemDao dao);
+    }
     ListView listView;
     NewsListAdapter listAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -92,6 +99,7 @@ public class NewsFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
                 if (response.isSuccessful()) {
                     NewsItemCollectionDao dao = response.body();
+                    newsListManager.setDao(dao);
                     listAdapter.setDao(dao);
                     listAdapter.notifyDataSetChanged();
                     Toast.makeText(Contextor.getInstance().getContext(), dao.getData().get(0).getNewsHeader(), Toast.LENGTH_LONG).show();
@@ -168,7 +176,9 @@ public class NewsFragment extends Fragment {
     final AdapterView.OnItemClickListener listViewItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            NewsItemDao dao = newsListManager.getDao().getData().get(position);
+            FragmentNewsListener listener = (FragmentNewsListener) getActivity();
+            listener.onNewsItemClick(dao);
         }
     };
 }

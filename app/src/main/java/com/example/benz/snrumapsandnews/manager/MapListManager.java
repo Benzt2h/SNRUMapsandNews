@@ -13,14 +13,14 @@ import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
 public class MapListManager {
 
-    private static MapListManager instance;
+ /*   private static MapListManager instance;
 
     public static MapListManager getInstance() {
         if (instance == null)
             instance = new MapListManager();
         return instance;
     }
-
+*/
     private Context mContext;
     private MapItemCollectionDao dao;
 

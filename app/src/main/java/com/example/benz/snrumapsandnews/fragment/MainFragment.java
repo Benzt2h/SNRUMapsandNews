@@ -41,6 +41,10 @@ import retrofit2.Response;
 
 public class MainFragment extends Fragment {
 
+    public interface FragmentMapListener {
+        void onMapItemClick(MapItemDao dao);
+    }
+
     ListView listView;
     MapListAdapter listAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -102,6 +106,7 @@ public class MainFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
                 if (response.isSuccessful()) {
                     MapItemCollectionDao dao = response.body();
+                    mapListManager.setDao(dao);
                     listAdapter.setDao(dao);
                     listAdapter.notifyDataSetChanged();
                     Toast.makeText(Contextor.getInstance().getContext(), dao.getData().get(0).getMapName(), Toast.LENGTH_LONG).show();
@@ -174,8 +179,10 @@ public class MainFragment extends Fragment {
     final AdapterView.OnItemClickListener listViewItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Intent intent = new Intent(getContext(), MoreInfoMapActivity.class);
-            startActivity(intent);
+
+            MapItemDao dao = mapListManager.getDao().getData().get(position);
+            FragmentMapListener listener = (FragmentMapListener) getActivity();
+            listener.onMapItemClick(dao);
         }
     };
 }

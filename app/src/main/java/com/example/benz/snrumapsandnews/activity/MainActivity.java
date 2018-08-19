@@ -1,5 +1,6 @@
 package com.example.benz.snrumapsandnews.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,10 +9,12 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.benz.snrumapsandnews.R;
+import com.example.benz.snrumapsandnews.dao.MapItemDao;
+import com.example.benz.snrumapsandnews.dao.NewsItemDao;
 import com.example.benz.snrumapsandnews.fragment.MainFragment;
 import com.example.benz.snrumapsandnews.fragment.NewsFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NewsFragment.FragmentNewsListener,MainFragment.FragmentMapListener  {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -53,4 +56,16 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
+    @Override
+    public void onMapItemClick(MapItemDao dao) {
+        //TODO: handle click
+        Intent intent = new Intent(MainActivity.this,MoreInfoMapActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onNewsItemClick(NewsItemDao dao) {
+        Intent intent = new Intent(MainActivity.this,MoreInfoNewsActivity.class);
+        startActivity(intent);
+    }
 }
