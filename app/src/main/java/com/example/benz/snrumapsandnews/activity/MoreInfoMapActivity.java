@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
 import com.example.benz.snrumapsandnews.R;
+import com.example.benz.snrumapsandnews.dao.MapItemDao;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -14,6 +15,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MoreInfoMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    MapItemDao dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,9 @@ public class MoreInfoMapActivity extends FragmentActivity implements OnMapReadyC
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        dao = getIntent().getParcelableExtra("dao");
+
     }
 
 
@@ -40,8 +45,8 @@ public class MoreInfoMapActivity extends FragmentActivity implements OnMapReadyC
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng latLng = new LatLng(Double.parseDouble(dao.getMapLatitude()), Double.parseDouble(dao.getMapLogitude()));
+        mMap.addMarker(new MarkerOptions().position(latLng).title(dao.getMapName()));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
     }
 }

@@ -60,12 +60,14 @@ public class MainActivity extends AppCompatActivity implements NewsFragment.Frag
     public void onMapItemClick(MapItemDao dao) {
         //TODO: handle click
         Intent intent = new Intent(MainActivity.this,MoreInfoMapActivity.class);
+        intent.putExtra("dao",dao);
         startActivity(intent);
     }
 
     @Override
     public void onNewsItemClick(NewsItemDao dao) {
         Intent intent = new Intent(MainActivity.this,MoreInfoNewsActivity.class);
+        intent.putExtra("dao",dao);
         startActivity(intent);
     }
 }

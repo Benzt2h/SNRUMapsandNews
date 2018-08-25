@@ -11,13 +11,13 @@ import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
 public class NewsListManager {
 
-    private static NewsListManager instance;
+ /*   private static NewsListManager instance;
 
     public static NewsListManager getInstance() {
         if (instance == null)
             instance = new NewsListManager();
         return instance;
-    }
+    }*/
 
     private Context mContext;
     private NewsItemCollectionDao dao;
