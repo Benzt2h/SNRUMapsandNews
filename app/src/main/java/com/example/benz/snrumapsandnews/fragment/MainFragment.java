@@ -97,10 +97,10 @@ public class MainFragment extends Fragment {
                     mapListManager.setDao(dao);
                     listAdapter.setDao(dao);
                     listAdapter.notifyDataSetChanged();
-                    Toast.makeText(Contextor.getInstance().getContext(), dao.getData().get(0).getMapName(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(Contextor.getInstance().getContext(), "อัพเดทข้อมูลแล้ว", Toast.LENGTH_SHORT).show();
                 } else {
                     try {
-                        Toast.makeText(Contextor.getInstance().getContext(), response.errorBody().string(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(Contextor.getInstance().getContext(), response.errorBody().string(), Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -110,7 +110,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onFailure(Call<MapItemCollectionDao> call, Throwable t) {
                 swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(Contextor.getInstance().getContext(), t.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(Contextor.getInstance().getContext(), "ไม่สามารถอัพเดทข้อมูลได้", Toast.LENGTH_SHORT).show();
             }
         });
     }
