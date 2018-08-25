@@ -6,8 +6,6 @@ import android.widget.BaseAdapter;
 
 import com.example.benz.snrumapsandnews.dao.MapItemCollectionDao;
 import com.example.benz.snrumapsandnews.dao.MapItemDao;
-import com.example.benz.snrumapsandnews.manager.MapListManager;
-import com.example.benz.snrumapsandnews.manager.PhotoListManager;
 import com.example.benz.snrumapsandnews.view.PhotoListitem;
 
 public class MapListAdapter extends BaseAdapter {

@@ -1,38 +1,26 @@
 package com.example.benz.snrumapsandnews.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.benz.snrumapsandnews.R;
-import com.example.benz.snrumapsandnews.activity.MoreInfoMapActivity;
 import com.example.benz.snrumapsandnews.adapter.MapListAdapter;
-import com.example.benz.snrumapsandnews.adapter.PhotoListAdapter;
 import com.example.benz.snrumapsandnews.dao.MapItemCollectionDao;
 import com.example.benz.snrumapsandnews.dao.MapItemDao;
-import com.example.benz.snrumapsandnews.dao.PhotoItemCollectionDao;
-import com.example.benz.snrumapsandnews.manager.HttpManager;
 import com.example.benz.snrumapsandnews.manager.HttpManager2;
 import com.example.benz.snrumapsandnews.manager.MapListManager;
-import com.example.benz.snrumapsandnews.manager.PhotoListManager;
 import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
 import java.io.IOException;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -2,12 +2,9 @@ package com.example.benz.snrumapsandnews.manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 
 import com.example.benz.snrumapsandnews.dao.MapItemCollectionDao;
-import com.example.benz.snrumapsandnews.dao.MapItemDao;
-import com.example.benz.snrumapsandnews.dao.PhotoItemCollectionDao;
 import com.google.gson.Gson;
 import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
