@@ -3,10 +3,16 @@ package com.example.benz.snrumapsandnews.adapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import com.example.benz.snrumapsandnews.dao.MapItemCollectionDao;
 import com.example.benz.snrumapsandnews.dao.MapItemDao;
 import com.example.benz.snrumapsandnews.view.PhotoListitem;
+
+import java.io.FilterReader;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class MapListAdapter extends BaseAdapter {
 
